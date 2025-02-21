@@ -5,7 +5,7 @@ let style = {
   flexDirection: "column",
 };
 
-const AddEmployeeForm = ({ EmployeeData, addEmployee }) => {
+const AddEmployeeForm = ({ addEmployee }) => {
   const [employee, setEmployee] = useState({ name: "", email: "", salary: "" });
   const [validationErrors, setValidationErrors] = useState({
     name: "",
@@ -20,7 +20,7 @@ const AddEmployeeForm = ({ EmployeeData, addEmployee }) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return !emailRegex.test(value) ? "Enter valid Email" : "";
       case "salary":
-        return value < 1499 ? "Salary must be more than 15000" : "";
+        return value < 15000 ? "Salary must be more than 15000" : "";
       default:
         return "";
     }
@@ -30,7 +30,7 @@ const AddEmployeeForm = ({ EmployeeData, addEmployee }) => {
     e.preventDefault();
 
     // First checking error then setting things:
-    const newEmployee = { ...employee, id: EmployeeData.length + 1 };
+    const newEmployee = { ...employee, id: Date.now() };
     addEmployee(newEmployee);
     setEmployee({ name: "", email: "", salary: "" });
   };
@@ -58,7 +58,9 @@ const AddEmployeeForm = ({ EmployeeData, addEmployee }) => {
           name="name"
           onChange={(e) => handleChange(e)}
         />
-        {validationErrors.name && <p style={{ color: "red" }}>Name is wrong</p>}
+        {validationErrors.name && (
+          <p style={{ color: "red" }}>{validationErrors.name}</p>
+        )}
         <input
           placeholder="Email"
           type="email"

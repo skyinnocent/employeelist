@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import AddEmployeeForm from "./AddEmployeeForm";
-const EmployeeData = [];
+import EmployeeItems from "./EmployeeItems";
+
 const EmployeeList = () => {
+  const [employeeData, setEmployeeData] = useState([]);
+
   const addEmployee = (employee) => {
-    EmployeeData.push(employee);
-    console.log(EmployeeData);
+    setEmployeeData((prevData) => [...prevData, employee]);
+  };
+
+  const removeEmployee = (id) => {
+    setEmployeeData((prevData) =>
+      prevData.filter((employee) => employee.id !== id)
+    );
   };
   return (
     <div
@@ -16,8 +24,11 @@ const EmployeeList = () => {
         alignItems: "center",
       }}
     >
-      <AddEmployeeForm EmployeeData={EmployeeData} addEmployee={addEmployee} />
-      Employee List
+      <AddEmployeeForm employeeData={employeeData} addEmployee={addEmployee} />
+      <EmployeeItems
+        employeeData={employeeData}
+        removeEmployee={removeEmployee}
+      />
     </div>
   );
 };
